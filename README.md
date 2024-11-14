@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 }
 ```
 
+Result:
 ```bash
 [user@host machine_code_executor]$ ./machine_code_executor
 256
