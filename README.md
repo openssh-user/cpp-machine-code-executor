@@ -1,8 +1,6 @@
 # C++ Machine Code Executor
-Written in modern C++. 
-
 Usage sample is simple as that:
-'''
+```cpp
 #include "machine_code_executor.hpp"
 #include <iostream>
 
@@ -17,5 +15,4 @@ int main(int argc, char **argv)
 	std::cout << executor.Execute<int(int)>(mem, 128);
 	return 0;
 }
-
-'''
+```
