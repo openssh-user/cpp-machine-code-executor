@@ -1,5 +1,5 @@
 # C++ Machine Code Executor
-Just done for testing purposes. It can be use for AVX instruction-set check.
+Just done for testing purposes.
 
 Usage sample is simple as that:
 ```cpp
