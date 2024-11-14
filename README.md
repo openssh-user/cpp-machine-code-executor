@@ -1,4 +1,6 @@
 # C++ Machine Code Executor
+Just done for testing purposes. It can be use for AVX instruction check.
+
 Usage sample is simple as that:
 ```cpp
 #include "machine_code_executor.hpp"
