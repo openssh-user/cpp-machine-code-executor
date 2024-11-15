@@ -69,10 +69,9 @@ public:
     template<typename FunctionType, typename... Args>
     auto Execute(const ExecutableMemory& executable_memory, Args&&... args)
     {
-        FunctionType* start_address = (FunctionType*)executable_memory.data();
+        FunctionType* start_address = reinterpret_cast<FunctionType*>(executable_memory.data());
         return start_address(args...);
     }
 };
-
 
 #endif 
