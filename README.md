@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 ```
 
 Result:
-```terminal
+```console
 [user@host machine_code_executor]$ ./machine_code_executor
 256
 ```
