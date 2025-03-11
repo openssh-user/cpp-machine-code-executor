@@ -1,6 +1,6 @@
 # C++ Machine Code Executor
 Just done for testing purposes.
-
+## Sample
 Usage sample is simple as that:
 ```cpp
 #include "machine_code_executor.hpp"
