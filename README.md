@@ -14,7 +14,14 @@ int main(int argc, char **argv)
 	{ 0x48, 0x05, 0x80, 0x00, 0x00, 0x00, 0xC3 };
 
 	MachineCodeExecutor executor;
-	std::cout << executor.Execute<int(int)>(mem, 128);
+	try
+	{
+		std::cout << executor.Execute<int(int)>(mem, 128) << std::endl;
+	}
+	catch(std::runtime_error& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 	return 0;
 }
 ```
