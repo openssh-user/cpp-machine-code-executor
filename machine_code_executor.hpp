@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <type_traits>
+#include <stdexcept>
 
 /*
 @brief
@@ -30,22 +31,24 @@ public:
     T* allocate(std::size_t size)
     {
         #if defined(WIN32)
-        return reinterpret_cast<T*>
-        (
-            VirtualAlloc(nullptr, sizeof(T) * size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE)
-        );
+        void* pointer = VirtualAlloc(nullptr, sizeof(T) * size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+        if (pointer == nullptr)
+            throw std::bad_alloc();
         
         #elif (defined(__linux__) || defined(__APPLE__))
-        return reinterpret_cast<T*>
-        (
-            mmap(nullptr, sizeof(T) * size, PROT_EXEC | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)
-        );
-
+        void* pointer = mmap(nullptr, sizeof(T) * size, PROT_EXEC | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+        if (pointer == MAP_FAILED)
+            throw std::bad_alloc();
         #endif
+        
+        return reinterpret_cast<T*>(pointer);
     }
     
     void deallocate(void* pointer, std::size_t size)
     {
+        if (pointer == nullptr)
+            return;
+        
         #if defined(WIN32)
         VirtualFree(pointer, sizeof(T) * size, MEM_DECOMMIT);
 
@@ -69,8 +72,11 @@ public:
     template<typename FunctionType, typename... Args>
     auto Execute(const ExecutableMemory& executable_memory, Args&&... args)
     {
+        if (executable_memory.empty()) {
+            throw std::invalid_argument("Executable memory is empty");
+        }
         FunctionType* start_address = reinterpret_cast<FunctionType*>(executable_memory.data());
-        return start_address(args...);
+        return start_address(std::forward<Args>(args)...);
     }
 };
 
